@@ -196,7 +196,9 @@ lazy val root = (project in file("."))
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
   case PathList("org", "tensorflow", _ @_*) => MergeStrategy.first
-  case _ => MergeStrategy.deduplicate
+  case x =>
+    val oldStrategy = (ThisBuild / assemblyMergeStrategy).value
+    oldStrategy(x)
 }
 
 /** Test tagging start */
