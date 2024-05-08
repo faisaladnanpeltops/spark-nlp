@@ -188,6 +188,7 @@ lazy val root = (project in file("."))
 (assembly / assemblyOption) := (assembly / assemblyOption).value.withIncludeScala(includeScala =
   false)
 
+// add or remove certain files from fat jar
 (assembly / assemblyMergeStrategy) := {
   case PathList("versions", "9", "module-info.class") => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @_*) => MergeStrategy.discard
