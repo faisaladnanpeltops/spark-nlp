@@ -189,7 +189,7 @@ lazy val root = (project in file("."))
   false)
 
 (assembly / assemblyMergeStrategy) := {
-  case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
+  case PathList("versions", "9", "module-info.class") => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @_*) => MergeStrategy.discard
   case PathList("org.apache.hadoop", _ @_*) => MergeStrategy.first
   case PathList("com.amazonaws", _ @_*) => MergeStrategy.last
