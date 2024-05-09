@@ -9,7 +9,6 @@ on:
       - 'examples/**'
       - '**.md'
       - '**.yaml'
-      - '**.yml'
     branches:
       - 'master'
       - '*release*'
@@ -23,7 +22,6 @@ on:
       - 'examples/**'
       - '**.md'
       - '**.yaml'
-      - '**.yml'
     branches:
       - 'master'
       - '*release*'
@@ -33,7 +31,7 @@ on:
 jobs:
   spark34:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -41,9 +39,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: '8'
           cache: 'sbt'
       - name: Install Python 3.7
@@ -59,6 +57,25 @@ jobs:
         run: |
           brew install sbt
           sbt -mem 4096 -Dis_spark34=true clean assemblyAndCopy
+      - name: Generate SBOM
+        run: |
+          mkdir -p scanner
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ./scanner v0.98.0 
+          ./scanner/syft version 
+          sbt -mem 4096 makeBom  
+          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
+      - name: 'Upload Jar Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sparknlp.jar
+          path: /Users/runner/work/spark-nlp/spark-nlp/python/lib/sparknlp.jar 
+          retention-days: 5   
+      - name: 'Upload SBOM Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom.json
+          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
+          retention-days: 5                   
       - name: Test Spark NLP in Scala - Apache Spark 3.4.x
         run: |
           sbt -mem 4096 coverage test
@@ -74,7 +91,7 @@ jobs:
 
   spark33:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -84,7 +101,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: '8'
           cache: 'sbt'
       - name: Install Python 3.7
@@ -100,6 +117,25 @@ jobs:
         run: |
           brew install sbt
           sbt -mem 4096 -Dis_spark33=true clean assemblyAndCopy
+      - name: Generate SBOM
+        run: |
+          mkdir -p scanner
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ./scanner v0.98.0 
+          ./scanner/syft version 
+          sbt -mem 4096 makeBom  
+          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
+      - name: 'Upload Jar Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sparknlp.jar
+          path: /Users/runner/work/spark-nlp/spark-nlp/python/lib/sparknlp.jar 
+          retention-days: 5   
+      - name: 'Upload SBOM Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom.json
+          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
+          retention-days: 5      
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
           sbt -mem 4096 test
@@ -110,7 +146,7 @@ jobs:
 
   spark32:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -120,7 +156,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: '8'
           cache: 'sbt'
       - name: Install Python 3.7
@@ -136,6 +172,25 @@ jobs:
         run: |
           brew install sbt
           sbt -mem 4096 -Dis_spark32=true clean assemblyAndCopy
+      - name: Generate SBOM
+        run: |
+          mkdir -p scanner
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ./scanner v0.98.0 
+          ./scanner/syft version 
+          sbt -mem 4096 makeBom  
+          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
+      - name: 'Upload Jar Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sparknlp.jar
+          path: /Users/runner/work/spark-nlp/spark-nlp/python/lib/sparknlp.jar 
+          retention-days: 5   
+      - name: 'Upload SBOM Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom.json
+          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
+          retention-days: 5              
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
           sbt -mem 4096 test
@@ -146,7 +201,7 @@ jobs:
 
   # spark31:
   #   if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-  #   runs-on: macos-latest
+  #   runs-on: macos-12
   #   env:
   #     TF_CPP_MIN_LOG_LEVEL: 3
   #     JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -182,7 +237,7 @@ jobs:
 
   # spark30:
   #   if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-  #   runs-on: macos-latest
+  #   runs-on: macos-12
   #   env:
   #     TF_CPP_MIN_LOG_LEVEL: 3
   #     JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
