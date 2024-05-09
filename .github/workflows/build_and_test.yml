@@ -64,18 +64,12 @@ jobs:
           ./scanner/syft version 
           sbt -mem 4096 makeBom  
           ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
-      - name: 'Upload Jar Artifact'
-        uses: actions/upload-artifact@v4
-        with:
-          name: sparknlp.jar
-          path: /Users/runner/work/spark-nlp/spark-nlp/python/lib/sparknlp.jar 
-          retention-days: 5   
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: sbom.json
+          name: spark34/sbom.json
           path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
-          retention-days: 5                   
+          retention-days: 365                   
       - name: Test Spark NLP in Scala - Apache Spark 3.4.x
         run: |
           sbt -mem 4096 coverage test
@@ -124,18 +118,12 @@ jobs:
           ./scanner/syft version 
           sbt -mem 4096 makeBom  
           ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
-      - name: 'Upload Jar Artifact'
-        uses: actions/upload-artifact@v4
-        with:
-          name: sparknlp.jar
-          path: /Users/runner/work/spark-nlp/spark-nlp/python/lib/sparknlp.jar 
-          retention-days: 5   
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: sbom.json
+          name: spark33/sbom.json
           path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
-          retention-days: 5      
+          retention-days: 365      
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
           sbt -mem 4096 test
@@ -179,18 +167,12 @@ jobs:
           ./scanner/syft version 
           sbt -mem 4096 makeBom  
           ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
-      - name: 'Upload Jar Artifact'
-        uses: actions/upload-artifact@v4
-        with:
-          name: sparknlp.jar
-          path: /Users/runner/work/spark-nlp/spark-nlp/python/lib/sparknlp.jar 
-          retention-days: 5   
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: sbom.json
+          name: spark32/sbom.json
           path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
-          retention-days: 5              
+          retention-days: 365              
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
           sbt -mem 4096 test
