@@ -63,7 +63,8 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ./scanner v0.98.0 
           ./scanner/syft version 
           sbt -mem 4096 makeBom  
-          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
+          cp target/*.bom.xml scanner/.
+          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json -o template=./scanner/sbom.html -t .github/workflows/sbom.tmpl
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
@@ -117,7 +118,8 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ./scanner v0.98.0 
           ./scanner/syft version 
           sbt -mem 4096 makeBom  
-          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
+          cp target/*.bom.xml scanner/.
+          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json -o template=./scanner/sbom.html -t .github/workflows/sbom.tmpl
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
@@ -166,7 +168,8 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ./scanner v0.98.0 
           ./scanner/syft version 
           sbt -mem 4096 makeBom  
-          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json
+          cp target/*.bom.xml scanner/.
+          ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json -o template=./scanner/sbom.html -t .github/workflows/sbom.tmpl
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
