@@ -67,8 +67,8 @@ jobs:
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: sbom_spark34.json
-          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
+          name: sbom_spark34.zip
+          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/*bom*
           retention-days: 365                   
       - name: Test Spark NLP in Scala - Apache Spark 3.4.x
         run: |
@@ -121,8 +121,8 @@ jobs:
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: sbom_spark33.json
-          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
+          name: sbom_spark33.zip
+          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/*bom*
           retention-days: 365      
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
@@ -170,8 +170,8 @@ jobs:
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: sbom_spark32.json
-          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/sbom.json
+          name: sbom_spark32.zip
+          path: /Users/runner/work/spark-nlp/spark-nlp/scanner/*bom*
           retention-days: 365              
       - name: Test Spark NLP in Scala - Apache Spark 3.2.x
         run: |
