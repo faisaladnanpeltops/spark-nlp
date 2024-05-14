@@ -68,6 +68,7 @@ jobs:
           cd python
           python3.7 -m venv fresh
           . fresh/bin/activate
+          python3.7 -m pip install --upgrade pip
           pip install wheel
           python3.7 setup.py sdist bdist_wheel
           pip install --ignore-installed --report sparknlp.json dist/*.whl
