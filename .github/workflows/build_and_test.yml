@@ -65,6 +65,15 @@ jobs:
           sbt -mem 4096 makeBom  
           cp target/*.bom.xml scanner/.
           ./scanner/syft convert target/*.bom.xml -o syft-json=./scanner/sbom.json -o template=./scanner/sbom.html -t .github/workflows/sbom.tmpl
+          cd python
+          python3.7 -m venv fresh
+          . fresh/bin/activate
+          pip install wheel
+          python3.7 setup.py sdist bdist_wheel
+          pip install --ignore-installed --report sparknlp.json dist/*.whl
+          jq -r '.install[] | .metadata.name + "==" + .metadata.version' sparknlp.json | sort > requirements.txt
+          cat requirements.txt
+          deactivate                    
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
