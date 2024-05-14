@@ -73,12 +73,8 @@ jobs:
           python3.7 setup.py sdist bdist_wheel
           pip install --ignore-installed --report sparknlp.json dist/*.whl
           jq -r '.install[] | .metadata.name + "==" + .metadata.version' sparknlp.json | sort > requirements.txt
-          cat requirements.txt
-          deactivate     
-      - uses: pCYSl5EDgo/cat@master
-        id: requirements
-        with:
-          path: python/requirements.txt            
+          cat requirements.txt >> $GITHUB_OUTPUT  
+          deactivate             
       - name: 'Upload SBOM Artifact'
         uses: actions/upload-artifact@v4
         with:
